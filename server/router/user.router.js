@@ -22,6 +22,8 @@ router.post('/login' , async (req , res , next) => {
     const {email , password} = req.body;
     try{
     const result = await User.matchPassword(email , password);
+    
+    console.log(result);
     res.json(result);
     }catch(err){
         next({statusCode : 400 , message : err.message})

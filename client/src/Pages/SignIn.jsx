@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { userSliceActions } from '../../Store/Store';
 
 function SignIn() {
   const [formData , setFormData] = useState({});
   const [error , setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function changeHandeler(e){
     setError("")
@@ -31,7 +34,8 @@ function SignIn() {
         setError(data.message);
         return
       }
-      navigate('/home')
+      dispatch(userSliceActions.successLogIn(data));
+      navigate('/')
     }catch(err){
       setError(err.message);
       return

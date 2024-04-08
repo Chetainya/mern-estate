@@ -32,7 +32,15 @@ userSchema.static('matchPassword' , async function(email , password){
     if(userProvidedPasswordHash !== user.password){
         throw new Error('Wrong Password');
     }
-    return true
+    const userReturnData = {
+       
+        ...user._doc
+    }
+    return {
+        ...userReturnData,
+        password : null,
+        salt : null
+    };
 })
 
 userSchema.pre('save' , function(next){
