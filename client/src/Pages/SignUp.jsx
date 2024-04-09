@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import OAuth from '../Components/OAuth';
-
+import {useDispatch} from 'react-redux'
+import { userSliceActions } from '../../Store/Store';
 
 
 function SignUp() {
   const [formData , setFormData] = useState({});
   const [error , setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   function changeHandeler(e){
@@ -23,6 +25,8 @@ function SignUp() {
     try{
       const response = await fetch('http://localhost:3000/user/signup' , {
         method : 'POST',
+        credentials:"include",
+    mode: 'cors',
         body : JSON.stringify(formData),
         headers : {
           'Content-Type': 'application/json',
@@ -34,7 +38,8 @@ function SignUp() {
         setError(data.message)
         return
       }
-      navigate('/signin')
+      dispatch(userSliceActions.successLogIn(data));
+      navigate('/')
     }catch(err){
       setError(err.message)
     }

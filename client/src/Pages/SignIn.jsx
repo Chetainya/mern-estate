@@ -24,6 +24,8 @@ function SignIn() {
     try{
       const response = await fetch("http://localhost:3000/user/login" , {
         method : 'POST',
+        credentials:"include",
+    mode: 'cors',
         body : JSON.stringify(formData),
         headers : {
           'Content-Type': 'application/json',

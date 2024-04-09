@@ -9,7 +9,10 @@ const userRouter = require('./router/user.router.js')
 
 const app = express();
 
-app.use(cors())
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials : true
+}))
 dotenv.config();
 
 mongoose.connect("mongodb://localhost:27017/realestate").then(() => console.log('DB connected')).catch((err) => console.log(err));

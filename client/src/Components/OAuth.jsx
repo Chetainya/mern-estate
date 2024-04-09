@@ -19,6 +19,8 @@ function OAuth() {
       console.log(result);
       const response = await fetch("http://localhost:3000/user/googleAuth", {
         method: "POST",
+        credentials:"include",
+        mode: 'cors',
         body: JSON.stringify({
           userName: result.user.displayName,
           email: result.user.email,
@@ -30,8 +32,8 @@ function OAuth() {
       });
       const data = await response.json();
       // console.log(data)
-      if (!data) {
-        throw new Error("Error while login");
+      if (data.error) {
+        throw new Error(data.error.message);
       }
       dispatch(
         userSliceActions.successLogIn({
