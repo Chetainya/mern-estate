@@ -33,7 +33,10 @@ router.post('/login' , async (req , res , next) => {
 })
 
 router.post('/googleAuth' , (req , res) => {
-    return res.json(req.body)
+    //handle google authentication
+
+    // 1> user already present than generate token and navigate to home page
+    // 2> create new user and generate token and navigate to home page
 })
 
 module.exports = router

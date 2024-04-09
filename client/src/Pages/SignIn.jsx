@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userSliceActions } from '../../Store/Store';
+import OAuth from '../Components/OAuth';
 
 function SignIn() {
   const [formData , setFormData] = useState({});
@@ -53,7 +54,11 @@ function SignIn() {
         <input type='password' placeholder='Enter Password' id='password' className='p-3 rounded-lg' onChange={changeHandeler}></input>
 
         <button onClick={submitHandeler} className='border hover:opacity-85 disabled:opacity-50 bg-slate-600 p-3 rounded-lg text-white'>Sign In</button>
+        <OAuth />
       </form>
+      <div className='mt-3'>
+        Don't have an Account! <Link to='/signup' className='text-blue-700'>SignUp</Link>
+      </div>
       <div className='text-red-500'>
       {error ? error : null}
 
