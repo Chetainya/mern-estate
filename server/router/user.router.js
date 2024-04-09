@@ -1,18 +1,20 @@
 const express = require("express");
 
-const User = require('../model/user.modal.js')
+const User = require('../model/user.modal.js');
+const { generateToken } = require("../Services/auth.js");
 
 const router = express.Router();
 
 router.post('/signup' , async (req , res , next) => {
     const {userName , email , password} = req.body;
     try{
-    await User.create({
+    const user = await User.create({
         userName,
         password,
         email
     })
-    return res.status(201).json("User Created");
+    const token = generateToken(user);
+    return res.status(201).cookie('token' , token).json("User Created");
 }catch(err){
     next({statusCode : 400 , message : err.message})
 }
@@ -21,13 +23,17 @@ router.post('/signup' , async (req , res , next) => {
 router.post('/login' , async (req , res , next) => {
     const {email , password} = req.body;
     try{
-    const result = await User.matchPassword(email , password);
+    const {token , ...rest} = await User.matchPassword(email , password);
     
-    console.log(result);
-    res.json(result);
+   
+    res.status(201).cookie('token' , token).json(rest);
     }catch(err){
         next({statusCode : 400 , message : err.message})
     }
+})
+
+router.post('/googleAuth' , (req , res) => {
+    return res.json(req.body)
 })
 
 module.exports = router

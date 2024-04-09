@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+import OAuth from '../Components/OAuth';
 
 
 
@@ -48,6 +49,7 @@ function SignUp() {
         <input type='email' placeholder='email' id='email' className='border p-3 rounded-lg' onChange={changeHandeler} />
         <input type='password' placeholder='password' id='password' className='border p-3 rounded-lg' onChange={changeHandeler} />
         <button onClick={submitHandeler} className='border p-3 rounded-lg bg-slate-600 hover:opacity-80 text-white disabled:opacity-50'>Sign Up</button>
+        <OAuth />
       </form>
       <div className='text-red-600'>
         {error ? error : null}
