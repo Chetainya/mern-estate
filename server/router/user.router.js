@@ -1,13 +1,27 @@
 const express = require("express");
 const {createHmac , randomBytes} = require('crypto');
-
+const multer  = require('multer')
 
 
 const User = require('../model/user.modal.js');
 const { generateToken } = require("../Services/auth.js");
-const path = require("path");
+
 
 const router = express.Router();
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads/')
+    },
+    filename: function (req, file, cb) {
+       
+      const fileName = `${Date.now()}-${file.originalname}`
+      cb(null, fileName)
+    }
+  })
+  
+  const upload = multer({ storage: storage })
 
 
 
@@ -85,7 +99,12 @@ router.post("/update" , async (req , res , next) => {
 })
 
 
-
+router.post('/update/profilePicture' , upload.single("file") , async (req , res) => {
+    
+    await User.findByIdAndUpdate(req.user.id , {avatar : `http://localhost:3000/uploads/${req.file.filename}`})
+    res.send(req.file.filename);
+    return;
+})
 
 
 

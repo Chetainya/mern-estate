@@ -2,9 +2,12 @@ import React, { useRef, useState  } from "react";
 import { useSelector , useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userSliceActions } from "../../Store/Store";
+import axios from 'axios'
+
 function Profile() {
   const user = useSelector((state) => state.user.userDetail);
-  const [profilePicture, setProfilePicture] = useState(null);
+ 
+ 
   const updatedPassword = useRef();
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
@@ -38,7 +41,16 @@ function Profile() {
 
   async function profilePictureHandeler(e){
     
+    const formData = new FormData();
+    
+    formData.append('file' , e.target.files[0]);
+    const response = await axios.post("http://localhost:3000/user/update/profilePicture" , formData , { withCredentials: true });
+    
+    dispatch(userSliceActions.profilePictureUpdate(`http://localhost:3000/uploads/${response.data}`));
+    
+  
   }
+  
   return (
     <div className="my-10">
       <div className="flex flex-col items-center justify-center max-w-sm mx-auto gap-4">

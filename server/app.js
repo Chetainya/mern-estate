@@ -5,15 +5,15 @@ const cors = require('cors');
 const path = require("path")
 const cookieParser = require('cookie-parser')
 const authentication = require('./middleware/auth.js')
-
+const bp = require('body-parser')
 
 const userRouter = require('./router/user.router.js')
 
 const app = express();
-
+app.use(bp.json())
 app.use(cookieParser());
 app.use(authentication());
-app.use(express.urlencoded({extended : false}))
+app.use(express.urlencoded({extended : true}))
 
 app.use(cors({
     origin : "http://localhost:5173",
