@@ -1,9 +1,16 @@
 const express = require("express");
+const {createHmac , randomBytes} = require('crypto');
+
+
 
 const User = require('../model/user.modal.js');
 const { generateToken } = require("../Services/auth.js");
+const path = require("path");
 
 const router = express.Router();
+
+
+
 
 router.post('/signup' , async (req , res , next) => {
     const {userName , email , password} = req.body;
@@ -59,5 +66,28 @@ router.post('/googleAuth' , async (req , res , next) => {
 }
     // 2> create new user and generate token and navigate to home page
 })
+
+
+router.post("/update" , async (req , res , next) => {
+    try{
+        console.log(req.body.password , req.user.id)
+        const salt = randomBytes(16).toString();
+        const hashedPassword = createHmac('sha256' , salt).update(req.body.password).digest('hex');
+        
+        await User.findByIdAndUpdate(req.user.id , {password : hashedPassword , salt})
+        return res.json({
+            msg: "success"
+        })
+
+    }catch(err){
+        next({statusCode : 400 , message : err.message})
+    }
+})
+
+
+
+
+
+
 
 module.exports = router

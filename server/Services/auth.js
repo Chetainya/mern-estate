@@ -5,7 +5,9 @@ const secret = 'Chetainya Manchanda'
 
 function generateToken(user){
 
-    const payload = user.id;
+    const payload = {
+        id : user.id
+    };
     try{
     const token = jwt.sign(payload , secret) 
     if(!token){

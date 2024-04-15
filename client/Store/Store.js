@@ -13,6 +13,9 @@ const userSlice = createSlice({
         },
         successLogOut(state){
             state.userDetail = null;
+        },
+        profilePictureUpdate(state , action){
+            state.avatar = action.payload;
         }
 
     }

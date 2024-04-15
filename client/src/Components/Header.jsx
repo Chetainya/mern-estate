@@ -26,10 +26,10 @@ function Header() {
         <Link to="/about">
         <li className='hidden sm:inline text-slate-700 hover:underline cursor-pointer'>About</li>
         </Link>
-        <Link to="/signin">
-          {user ? <li className=' text-slate-700 hover:underline cursor-pointer'>{user.userName}</li> :
-        <li className=' text-slate-700 hover:underline cursor-pointer'>SignIn</li>}
-        </Link>
+        
+          {user ? <Link to='/profile'>  <img src={user.avatar} className='rounded-full w-8' alt='profile' /> </Link> :
+        <Link to="/signin"><li className=' text-slate-700 hover:underline cursor-pointer'>SignIn</li></Link>}
+        
       </ul>
       </div>
       
